@@ -16,14 +16,8 @@ io.on('connection', socket => {
         console.log(dataFromClient)
     })
 
-    socket.on('newMessageToServer', msg => {
-        // io.emit('messageToClients', { text: msg.text })
-        io.of('/').emit('messageToClients', { text: msg.text })
-    })
-
-    setTimeout(() => {
-        io.of('/admin').emit('welcome', 'welcome to admin channel, form the main channel')
-    }, 2000);
+    socket.join('level1')
+    io.of('/').to('level1').emit('joined', `${socket.id} I have joined the level 1 room!`)
 })
 
 io.of('/admin').on('connection', socket => {
