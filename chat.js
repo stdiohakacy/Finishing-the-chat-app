@@ -17,6 +17,16 @@ io.on('connection', socket => {
     })
 
     socket.on('newMessageToServer', msg => {
-        io.emit('messageToClient', { text: msg.text })
+        // io.emit('messageToClients', { text: msg.text })
+        io.of('/').emit('messageToClients', { text: msg.text })
     })
+
+    setTimeout(() => {
+        io.of('/admin').emit('welcome', 'welcome to admin channel, form the main channel')
+    }, 2000);
+})
+
+io.of('/admin').on('connection', socket => {
+    console.log('Someone connected to the admin names')
+    io.of('/admin').emit('welcome', "welcome to admin channel")
 })
